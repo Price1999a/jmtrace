@@ -6,11 +6,57 @@
 
     <groupId>cn.edu.nju.shentianqi</groupId>
     <artifactId>jmtrace</artifactId>
-    <version>0.0</version>
-
+    <version>0.1</version>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <dependencies>
+        <!--
+          <dependency>
+               <groupId>asm</groupId>
+               <artifactId>asm-commons</artifactId>
+               <version>3.3.1</version>
+           </dependency>
+         -->
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>9.2</version>
+        </dependency>
+    </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifestEntries>
+                            <Premain-Class>cn.edu.nju.shentianqi.jmtrace.Agent</Premain-Class>
+                            <Agent-Class>cn.edu.nju.shentianqi.jmtrace.Agent</Agent-Class>
+                            <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                            <Can-Retransform-Classes>true</Can-Retransform-Classes>
+                        </manifestEntries>
+                        <manifest>
+                            <mainClass>cn.edu.nju.shentianqi.jmtrace.Agent</mainClass>>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
