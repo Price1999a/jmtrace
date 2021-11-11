@@ -1,6 +1,5 @@
 package cn.edu.nju.shentianqi.test;
 
-import cn.edu.nju.shentianqi.jmtrace.Agent;
 import cn.edu.nju.shentianqi.jmtrace.logger.Log;
 
 class SomeClass {
@@ -23,11 +22,13 @@ public class Main {
         Log.out("main() run");
         usage();
         test1();
-        Log.out("test1() end");
+        //Log.out("test1() end");
         test2();
-        Log.out("test2() end");
+        //Log.out("test2() end");
         test3();
-        Log.out("test3() end");
+        //Log.out("test3() end");
+        Class<?> c = Main.class;
+        //Log.out(c);
     }
 
     private static void usage() {
@@ -44,14 +45,16 @@ public class Main {
         SomeClass someObj = new SomeClass();
         SomeClass.staticField = i;
         someObj.otherField = someObj.field;
+        //Log.out("test1() function end");
     }
 
     private static void test2() throws InterruptedException {
         for (int i = 0; i < 2; i++) {
             new Thread(Main::test1).start();
         }
-        Thread.sleep(50);
+        Thread.sleep(500);
         int i = SomeClass.staticField;
+        //Log.out("test2() function end");
     }
 
     private static void test3() {
@@ -65,5 +68,6 @@ public class Main {
         o.aDouble = 4.5;
 
         String s = (o.aBoolean + " " + (o.aByte + o.aChar + o.anInt + o.aFloat + o.aLong + o.aDouble));
+        //Log.out("test3() function end");
     }
 }
