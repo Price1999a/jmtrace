@@ -55,6 +55,14 @@ class MethodAdaptor extends MethodVisitor {
                     "(Ljava/lang/Class;Ljava/lang/String;)V",
                     false);
         } else if (opcode == Opcodes.PUTSTATIC) {
+            mv.visitLdcInsn(Type.getType("L" + owner + ";"));
+            mv.visitLdcInsn(name);
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                    "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                    "logPutStatic",
+                    "(Ljava/lang/Class;Ljava/lang/String;)V",
+                    false);
+
         }
         super.visitFieldInsn(opcode, owner, name, descriptor);
     }

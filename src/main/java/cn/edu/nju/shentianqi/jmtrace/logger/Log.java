@@ -32,11 +32,12 @@ public class Log {
     }
 
     public static void main(String[] args) {
-        verbose = true;
+        enableStdOut();
         out(123412);
         out("fsd");
         err(52f);
         err("gs gdf");
+        out(String.format("%#010x", 213));
     }
 
     /**
@@ -48,14 +49,19 @@ public class Log {
      */
 
     public static void logGetStatic(Class<?> c, String name) {
-        addRes(String.format("%s\t%d\t%#08x\t%s",
+        addRes(String.format("%s\t%d\t%#010x\t%s",
                 "R",
                 Thread.currentThread().getId(),
                 System.identityHashCode(c) ^ System.identityHashCode(name),
                 c.getCanonicalName() + "." + name));
     }
 
-    public static void logPutStatic() {
+    public static void logPutStatic(Class<?> c, String name) {
+        addRes(String.format("%s\t%d\t%#010x\t%s",
+                "W",
+                Thread.currentThread().getId(),
+                System.identityHashCode(c) ^ System.identityHashCode(name),
+                c.getCanonicalName() + "." + name));
     }
 
 }
