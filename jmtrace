@@ -1,1 +1,2 @@
+#!/usr/bin/env bash
 eval java -javaagent:./target/jmtrace-0.1-jar-with-dependencies.jar "$*"
