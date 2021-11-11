@@ -64,4 +64,20 @@ public class Log {
                 c.getCanonicalName() + "." + name));
     }
 
+    public static void logGetField(Object o, String fieldName) {
+        addRes(String.format("%s\t%d\t%#010x\t%s",
+                "R",
+                Thread.currentThread().getId(),
+                System.identityHashCode(o) ^ System.identityHashCode(fieldName),
+                o.getClass().getCanonicalName() + "." + fieldName));
+    }
+
+    public static void logPutField(Object o, String fieldName) {
+        addRes(String.format("%s\t%d\t%#010x\t%s",
+                "W",
+                Thread.currentThread().getId(),
+                System.identityHashCode(o) ^ System.identityHashCode(fieldName),
+                o.getClass().getCanonicalName() + "." + fieldName));
+    }
+
 }

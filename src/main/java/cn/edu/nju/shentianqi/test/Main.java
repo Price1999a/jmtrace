@@ -14,6 +14,7 @@ class SomeClass {
     float aFloat;
     long aLong;
     double aDouble;
+    String aString;
 }
 
 public class Main {
@@ -66,8 +67,9 @@ public class Main {
         o.aFloat = 0.2f;
         o.aLong = 999L;
         o.aDouble = 4.5;
+        o.aString = "极限竞速地平线";
 
-        String s = (o.aBoolean + " " + (o.aByte + o.aChar + o.anInt + o.aFloat + o.aLong + o.aDouble));
+        String s = (o.aBoolean + " " + (o.aByte + o.aChar + o.anInt + o.aFloat + o.aLong + o.aDouble) + o.aString);
         //Log.out("test3() function end");
     }
 }

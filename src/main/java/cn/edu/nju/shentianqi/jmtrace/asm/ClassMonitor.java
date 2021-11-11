@@ -63,6 +63,52 @@ class MethodAdaptor extends MethodVisitor {
                     "(Ljava/lang/Class;Ljava/lang/String;)V",
                     false);
 
+        } else if (opcode == Opcodes.GETFIELD) {
+            //..., objectref →
+            //..., value
+            //logGetField(Ljava/lang/Object;Ljava/lang/String;)V
+            mv.visitInsn(Opcodes.DUP);
+            mv.visitLdcInsn(name);
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                    "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                    "logGetField",
+                    "(Ljava/lang/Object;Ljava/lang/String;)V",
+                    false);
+        } else if (opcode == Opcodes.PUTFIELD) {
+            //..., objectref, value →
+            //...
+            //这里value就有两种情况了 可能是宽类型
+            if (Type.getType(descriptor).getSize() == 1) {
+                mv.visitInsn(Opcodes.DUP2);
+                mv.visitInsn(Opcodes.POP);
+                mv.visitLdcInsn(name);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                        "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                        "logPutField",
+                        "(Ljava/lang/Object;Ljava/lang/String;)V",
+                        false);
+            } else if (Type.getType(descriptor).getSize() == 2) {
+                //value1 value2
+                mv.visitInsn(Opcodes.DUP2_X1);
+                //value2 value1 value2
+                mv.visitInsn(Opcodes.POP2);
+                //value2 value1
+                mv.visitInsn(Opcodes.DUP);
+                //value2 value1 value1(object)
+                mv.visitLdcInsn(name);
+                //value2 value1 value1(object) value1(name)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                        "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                        "logPutField",
+                        "(Ljava/lang/Object;Ljava/lang/String;)V",
+                        false);
+                //value2 value1
+                mv.visitInsn(Opcodes.DUP_X2);
+                //value1 value2 value1
+                mv.visitInsn(Opcodes.POP);
+                //value1 value2
+                // nothing to say
+            }
         }
         super.visitFieldInsn(opcode, owner, name, descriptor);
     }
