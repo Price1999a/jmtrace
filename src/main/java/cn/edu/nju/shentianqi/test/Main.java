@@ -23,8 +23,11 @@ public class Main {
         Log.out("main() run");
         usage();
         test1();
+        Log.out("test1() end");
         test2();
+        Log.out("test2() end");
         test3();
+        Log.out("test3() end");
     }
 
     private static void usage() {
