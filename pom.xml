@@ -44,7 +44,7 @@
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
                         <manifest>
-                            <mainClass>cn.edu.nju.shentianqi.jmtrace.Agent</mainClass>>
+                            <mainClass>cn.edu.nju.shentianqi.test.Main</mainClass>>
                         </manifest>
                     </archive>
                 </configuration>
