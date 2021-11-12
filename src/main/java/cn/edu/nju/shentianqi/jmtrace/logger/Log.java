@@ -6,7 +6,7 @@ import java.util.List;
 public class Log {
     private static boolean verbose = false;
 
-    private static List<String> res = new ArrayList<>();
+    private static List<Data> res = new ArrayList<>();
 
     public static void out(Object x) {
         if (verbose)
@@ -22,13 +22,13 @@ public class Log {
     }
 
     public static void printRes() {
-        for (String s : res) {
+        for (Data s : res) {
             System.out.println(s);
         }
     }
 
-    public static synchronized boolean addRes(String s) {
-        return res.add(s);
+    public static synchronized boolean addRes(String rw, long pid, int hashcode, String name) {
+        return res.add(new Data(rw, pid, hashcode, name));
     }
 
     public static void main(String[] args) {
@@ -49,35 +49,31 @@ public class Log {
      */
 
     public static void logGetStatic(Class<?> c, String name) {
-        addRes(String.format("%s\t%d\t%#010x\t%s",
-                "R",
+        addRes("R",
                 Thread.currentThread().getId(),
                 System.identityHashCode(c) ^ System.identityHashCode(name),
-                c.getCanonicalName() + "." + name));
+                c.getCanonicalName() + "." + name);
     }
 
     public static void logPutStatic(Class<?> c, String name) {
-        addRes(String.format("%s\t%d\t%#010x\t%s",
-                "W",
+        addRes("W",
                 Thread.currentThread().getId(),
                 System.identityHashCode(c) ^ System.identityHashCode(name),
-                c.getCanonicalName() + "." + name));
+                c.getCanonicalName() + "." + name);
     }
 
     public static void logGetField(Object o, String fieldName) {
-        addRes(String.format("%s\t%d\t%#010x\t%s",
-                "R",
+        addRes("R",
                 Thread.currentThread().getId(),
                 System.identityHashCode(o) ^ System.identityHashCode(fieldName),
-                o.getClass().getCanonicalName() + "." + fieldName));
+                o.getClass().getCanonicalName() + "." + fieldName);
     }
 
     public static void logPutField(Object o, String fieldName) {
-        addRes(String.format("%s\t%d\t%#010x\t%s",
-                "W",
+        addRes("W",
                 Thread.currentThread().getId(),
                 System.identityHashCode(o) ^ System.identityHashCode(fieldName),
-                o.getClass().getCanonicalName() + "." + fieldName));
+                o.getClass().getCanonicalName() + "." + fieldName);
     }
 
 }
