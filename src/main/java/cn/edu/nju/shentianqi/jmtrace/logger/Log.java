@@ -86,4 +86,13 @@ public class Log {
                 arrayClassName.substring(0, arrayClassName.length() - 1) + index + "]");
     }
 
+    public static void logArrayStore(Object arrayRef, int index) {
+        //Type 'java/lang/Object' (current frame, stack[0]) is not assignable to '[I'
+        //所以可以认为数组类型相当特殊
+        String arrayClassName = arrayRef.getClass().getCanonicalName();
+        addRes("W",
+                Thread.currentThread().getId(),
+                ((long) (System.identityHashCode(arrayRef.getClass()) ^ System.identityHashCode(arrayRef)) << 32) + index,
+                arrayClassName.substring(0, arrayClassName.length() - 1) + index + "]");
+    }
 }

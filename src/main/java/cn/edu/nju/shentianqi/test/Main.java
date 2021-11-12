@@ -72,5 +72,21 @@ public class Main {
 
         String s = (o.aBoolean + " " + (o.aByte + o.aChar + o.anInt + o.aFloat + o.aLong + o.aDouble) + o.aString);
         //Log.out("test3() function end");
+        double[] doubles = new double[2];
+        for (int i = 0; i < doubles.length; i++) {
+            doubles[i] = Math.PI * i;
+        }
+        for (double aDouble : doubles) {
+            s += aDouble;
+            s += " ";
+        }
+        StringBuilder[] sbs = new StringBuilder[2];
+        for (int i = 0; i < sbs.length; i++)
+            sbs[i] = new StringBuilder("StringBuilder");
+        sbs[1].append(32);
+        sbs[0].append("4567f");
+        for (StringBuilder sb : sbs) {
+            s += sb.toString() + " ";
+        }
     }
 }

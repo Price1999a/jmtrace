@@ -125,6 +125,64 @@ class MethodAdaptor extends MethodVisitor {
                     "logArrayLoad",
                     "(Ljava/lang/Object;I)V",
                     false);
+        } else if (opcode >= Opcodes.IASTORE && opcode <= Opcodes.SASTORE) {
+            //..., arrayref, index, value →
+            //...
+            if (opcode == Opcodes.LASTORE || opcode == Opcodes.DASTORE) {
+                // v1-1 v1-2 v2-1
+                // v1-1 v1-2 v2-1 v1-1 v1-2
+                //..., arrayref, index, valueW
+                mv.visitInsn(Opcodes.DUP2_X2);
+                //..., valueW, arrayref, index, valueW
+                mv.visitInsn(Opcodes.POP2);
+                //..., valueW, arrayref, index
+                mv.visitInsn(Opcodes.DUP2_X2);
+                //..., arrayref, index, valueW, arrayref, index
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                        "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                        "logArrayStore",
+                        "(Ljava/lang/Object;I)V",
+                        false);
+                //..., arrayref, index, valueW
+            } else {
+                //..., arrayref, index, value →
+                //..., arrayref, index, value, arrayref, index
+                /*
+                //..., arrayref, index, value
+                mv.visitInsn(Opcodes.DUP2_X1);
+                //..., index, value, arrayref, index, value
+                mv.visitInsn(Opcodes.POP);
+                //..., index, value, arrayref, index
+                mv.visitInsn(Opcodes.DUP2);
+                //..., index, value, arrayref, index, arrayref, index
+                //logArrayStore(Ljava/lang/Object;I)V
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                        "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                        "logArrayStore",
+                        "(Ljava/lang/Object;I)V",
+                        false);
+                //..., index, value, arrayref, index
+                mv.visitInsn(Opcodes.POP);
+                //..., index, value, arrayref
+                mv.visitInsn(Opcodes.DUP_X2);
+                //..., arrayref, index, value, arrayref
+                mv.visitInsn(Opcodes.POP);
+                //..., arrayref, index, value
+                */
+                //..., arrayref, index, value
+                mv.visitInsn(Opcodes.DUP_X2);
+                //..., value, arrayref, index, value
+                mv.visitInsn(Opcodes.POP);
+                //..., value, arrayref, index
+                mv.visitInsn(Opcodes.DUP2_X1);
+                //..., arrayref, index, value, arrayref, index
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                        "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                        "logArrayStore",
+                        "(Ljava/lang/Object;I)V",
+                        false);
+                //..., arrayref, index, value
+            }
         }
         super.visitInsn(opcode);
     }
