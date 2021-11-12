@@ -27,7 +27,7 @@ public class Log {
         }
     }
 
-    public static synchronized boolean addRes(String rw, long pid, int hashcode, String name) {
+    public static synchronized boolean addRes(String rw, long pid, long hashcode, String name) {
         return res.add(new Data(rw, pid, hashcode, name));
     }
 
@@ -51,28 +51,28 @@ public class Log {
     public static void logGetStatic(Class<?> c, String name) {
         addRes("R",
                 Thread.currentThread().getId(),
-                System.identityHashCode(c) ^ System.identityHashCode(name),
+                ((long) System.identityHashCode(c) << 32) + System.identityHashCode(name),
                 c.getCanonicalName() + "." + name);
     }
 
     public static void logPutStatic(Class<?> c, String name) {
         addRes("W",
                 Thread.currentThread().getId(),
-                System.identityHashCode(c) ^ System.identityHashCode(name),
+                ((long) System.identityHashCode(c) << 32) + System.identityHashCode(name),
                 c.getCanonicalName() + "." + name);
     }
 
     public static void logGetField(Object o, String fieldName) {
         addRes("R",
                 Thread.currentThread().getId(),
-                System.identityHashCode(o) ^ System.identityHashCode(fieldName),
+                ((long) (System.identityHashCode(o) ^ System.identityHashCode(o.getClass())) << 32) + System.identityHashCode(fieldName),
                 o.getClass().getCanonicalName() + "." + fieldName);
     }
 
     public static void logPutField(Object o, String fieldName) {
         addRes("W",
                 Thread.currentThread().getId(),
-                System.identityHashCode(o) ^ System.identityHashCode(fieldName),
+                ((long) (System.identityHashCode(o) ^ System.identityHashCode(o.getClass())) << 32) + System.identityHashCode(fieldName),
                 o.getClass().getCanonicalName() + "." + fieldName);
     }
 
