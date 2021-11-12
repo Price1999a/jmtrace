@@ -14,7 +14,7 @@
 - https://stackoverflow.com/questions/57398474/is-there-a-way-to-swap-long-or-double-and-reference-values-on-jvm-stack
 
 ### 预计所需时间
-10h - 1h - 5h
+10h - 1h - 5h - 3h
 
 主要难点不在asm或者javaagent上 主要难点在jvm的内存模型上
 
@@ -22,7 +22,6 @@
 asm 插桩  
 记录函数  
 剩余任务：
-- 数组读写
 - 文档写作
 
 链接  
