@@ -10,7 +10,7 @@ public class Agent {
     public static final int apiVersion = Opcodes.ASM9;
 
     public static void premain(String agentArgs, Instrumentation inst) {
-        Log.enableStdOut();
+        //Log.enableStdOut();
         Log.out("premain() run");
         inst.addTransformer(new ClassMonitor(), true);
         Runtime.getRuntime().addShutdownHook(new Thread(Log::printRes));
