@@ -2,7 +2,7 @@
 
 ## 编译需要
 JDK >= 1.8  
-maven 3.6.3 （程序开发基于此版本maven）
+maven 3.6.3 （程序开发基于此版本maven处理依赖）
 
 ## 编译说明
 
@@ -20,8 +20,8 @@ maven 3.6.3 （程序开发基于此版本maven）
 
 ### 参考资料  
 
-- asm框架文档
-- tamiflex：一个参考工具
-- 个人毕业设计
-- jvm字节码手册
+- ASM 9.2 javadoc https://asm.ow2.io/javadoc/
+- TamiFlex https://github.com/secure-software-engineering/tamiflex
+- 个人毕业设计`DyDy`
+- The Java Virtual Machine Instruction Set https://docs.oracle.com/javase/specs/jvms/se11/html/jvms-6.html
 - https://stackoverflow.com/questions/57398474/is-there-a-way-to-swap-long-or-double-and-reference-values-on-jvm-stack
