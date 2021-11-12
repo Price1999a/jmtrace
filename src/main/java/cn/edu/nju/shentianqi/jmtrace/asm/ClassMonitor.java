@@ -88,6 +88,22 @@ class MethodAdaptor extends MethodVisitor {
                         "(Ljava/lang/Object;Ljava/lang/String;)V",
                         false);
             } else if (Type.getType(descriptor).getSize() == 2) {
+                //..., objectref, valueW
+                mv.visitInsn(Opcodes.DUP2_X1);
+                //..., valueW, objectref, valueW
+                mv.visitInsn(Opcodes.POP2);
+                //..., valueW, objectref
+                mv.visitInsn(Opcodes.DUP_X2);
+                //..., objectref, valueW, objectref
+                mv.visitLdcInsn(name);
+                //..., objectref, valueW, objectref, name
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                        "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                        "logPutField",
+                        "(Ljava/lang/Object;Ljava/lang/String;)V",
+                        false);
+                //..., objectref, valueW
+                /*
                 //value1 value2
                 mv.visitInsn(Opcodes.DUP2_X1);
                 //value2 value1 value2
@@ -108,6 +124,7 @@ class MethodAdaptor extends MethodVisitor {
                 mv.visitInsn(Opcodes.POP);
                 //value1 value2
                 // nothing to say
+                 */
             }
         }
         super.visitFieldInsn(opcode, owner, name, descriptor);
