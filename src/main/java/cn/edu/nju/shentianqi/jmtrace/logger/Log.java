@@ -76,4 +76,14 @@ public class Log {
                 o.getClass().getCanonicalName() + "." + fieldName);
     }
 
+    public static void logArrayLoad(Object arrayRef, int index) {
+        //W 1031 e7df7cd2ca07f4f1 java.lang.Object[0]
+        //R       13      2f90287b00000000        int[]9
+        String arrayClassName = arrayRef.getClass().getCanonicalName();
+        addRes("R",
+                Thread.currentThread().getId(),
+                ((long) (System.identityHashCode(arrayRef.getClass()) ^ System.identityHashCode(arrayRef)) << 32) + index,
+                arrayClassName.substring(0, arrayClassName.length() - 1) + index + "]");
+    }
+
 }

@@ -112,4 +112,20 @@ class MethodAdaptor extends MethodVisitor {
         }
         super.visitFieldInsn(opcode, owner, name, descriptor);
     }
+
+    @Override
+    public void visitInsn(int opcode) {
+        if (opcode >= Opcodes.IALOAD && opcode <= Opcodes.SALOAD) {
+            //..., arrayref, index →
+            //..., value
+            mv.visitInsn(Opcodes.DUP2);
+            //logArrayLoad(Ljava/lang/Object;I)V
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                    "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                    "logArrayLoad",
+                    "(Ljava/lang/Object;I)V",
+                    false);
+        }
+        super.visitInsn(opcode);
+    }
 }

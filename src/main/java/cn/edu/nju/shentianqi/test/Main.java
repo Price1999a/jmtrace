@@ -43,6 +43,7 @@ public class Main {
             a[i] = i;
         }
         i = a[a.length - 1];
+        i = a[0];
         SomeClass someObj = new SomeClass();
         SomeClass.staticField = i;
         someObj.otherField = someObj.field;
