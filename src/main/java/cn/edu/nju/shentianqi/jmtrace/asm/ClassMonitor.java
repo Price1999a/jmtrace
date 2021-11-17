@@ -32,7 +32,8 @@ public class ClassMonitor implements ClassFileTransformer {
         return className.startsWith("cn/edu/nju/shentianqi/jmtrace")
                 || className.startsWith("sun")
                 || className.startsWith("jdk")
-                || className.startsWith(("java"))
+                || className.startsWith("java")
+                //|| className.startsWith("java/util")
                 ;
     }
 }
