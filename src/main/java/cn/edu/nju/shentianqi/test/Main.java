@@ -4,7 +4,7 @@ import cn.edu.nju.shentianqi.jmtrace.logger.Log;
 
 class SomeClass {
     int field;
-    static int staticField;
+    static int staticField = 1;
     int otherField;
 
     boolean aBoolean;
@@ -15,6 +15,8 @@ class SomeClass {
     long aLong;
     double aDouble;
     String aString;
+
+    static String aStringStatic = "static";
 }
 
 public class Main {
@@ -85,8 +87,10 @@ public class Main {
             sbs[i] = new StringBuilder("StringBuilder");
         sbs[1].append(32);
         sbs[0].append("4567f");
+        s += SomeClass.aStringStatic;
         for (StringBuilder sb : sbs) {
             s += sb.toString() + " ";
         }
+        Log.out("test3 " + s);
     }
 }

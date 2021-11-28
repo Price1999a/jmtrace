@@ -14,7 +14,7 @@ public class ClassMonitor implements ClassFileTransformer {
         if (isSkippable(className)) return null;
         Log.out("transform: " + className);
         ClassReader classReader = new ClassReader(classfileBuffer);
-        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
         ClassVisitor classVisitor = new ClassVisitor(Agent.apiVersion, classWriter) {
             @Override
             public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
