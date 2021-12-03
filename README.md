@@ -1,27 +1,28 @@
 # JMTrace
 
-## 编译需要
+## Compilation Requirements
 JDK >= 1.8  
-maven 3.6.3 （程序开发基于此版本maven处理依赖）
+maven 3.6.3 (The program is based on this version of maven to handle dependencies)
 
-## 编译说明
+## Compilation Instructions
 
-- 确保可靠的互联网连接，程序依靠maven管理java库依赖。
-- 在程序源代码根目录下，运行 `mvn package` 命令。
-- `./target/jmtrace-1.0-jar-with-dependencies.jar` 就是目标程序。
+- Reliable internet connection, the program relies on maven to manage java library dependencies.
+- In the root directory of the program source code, run the `mvn package` command.
+- `./target/jmtrace-1.0-jar-with-dependencies.jar` is the target program.
 
-## 运行工具简要说明
+## Brief Description of Running Tools
 
-程序必须在编译后才能运行。
+The program must be compiled before it can be run.
 
-在程序源代码根目录下 运行 `./jmtrace {args}`  
-参数格式与`java`命令类似。  
+Run `./jmtrace {args}` in the root directory of the program source code. 
+
+The parameter format is similar to the `java` command.  
 
 
-### 参考资料  
+### Reference
 
 - ASM 9.2 javadoc https://asm.ow2.io/javadoc/
 - TamiFlex https://github.com/secure-software-engineering/tamiflex
-- 个人毕业设计`DyDy`
+- Personal graduation project `DyDy`
 - The Java Virtual Machine Instruction Set https://docs.oracle.com/javase/specs/jvms/se11/html/jvms-6.html
 - https://stackoverflow.com/questions/57398474/is-there-a-way-to-swap-long-or-double-and-reference-values-on-jvm-stack
