@@ -14,7 +14,7 @@ public class ClassMonitor implements ClassFileTransformer {
         if (isSkippable(className)) return null;
         Log.out("transform: " + className);
         ClassReader classReader = new ClassReader(classfileBuffer);
-        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
         ClassVisitor classVisitor = new ClassVisitor(Agent.apiVersion, classWriter) {
             @Override
             public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
@@ -45,6 +45,7 @@ class MethodAdaptor extends MethodVisitor {
 
     @Override
     public void visitFieldInsn(int opcode, String owner, String name, String descriptor) {
+        Log.out(opcode + " " + owner + " " + name + " " + descriptor);
         if (opcode == Opcodes.GETSTATIC) {
             //mv.visitLdcInsn(Type.getType("Lcn/edu/nju/shentianqi/test/Main;"));
             mv.visitLdcInsn(Type.getType("L" + owner + ";"));
@@ -76,34 +77,41 @@ class MethodAdaptor extends MethodVisitor {
                     "(Ljava/lang/Object;Ljava/lang/String;)V",
                     false);
         } else if (opcode == Opcodes.PUTFIELD) {
-            //..., objectref, value →
-            //...
-            //这里value就有两种情况了 可能是宽类型
-            if (Type.getType(descriptor).getSize() == 1) {
-                mv.visitInsn(Opcodes.DUP2);
-                mv.visitInsn(Opcodes.POP);
-                mv.visitLdcInsn(name);
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-                        "cn/edu/nju/shentianqi/jmtrace/logger/Log",
-                        "logPutField",
-                        "(Ljava/lang/Object;Ljava/lang/String;)V",
-                        false);
-            } else if (Type.getType(descriptor).getSize() == 2) {
-                //..., objectref, valueW
-                mv.visitInsn(Opcodes.DUP2_X1);
-                //..., valueW, objectref, valueW
-                mv.visitInsn(Opcodes.POP2);
-                //..., valueW, objectref
-                mv.visitInsn(Opcodes.DUP_X2);
-                //..., objectref, valueW, objectref
-                mv.visitLdcInsn(name);
-                //..., objectref, valueW, objectref, name
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-                        "cn/edu/nju/shentianqi/jmtrace/logger/Log",
-                        "logPutField",
-                        "(Ljava/lang/Object;Ljava/lang/String;)V",
-                        false);
-                //..., objectref, valueW
+            if ((owner != null)
+                    && owner.contains("$")
+                    && (name != null)
+                    && name.contains("$")
+                    && name.contains("this")) {
+                //规避内部类<init>中的putfield问题
+            } else {
+                //..., objectref, value →
+                //...
+                //这里value就有两种情况了 可能是宽类型
+                if (Type.getType(descriptor).getSize() == 1) {
+                    mv.visitInsn(Opcodes.DUP2);
+                    mv.visitInsn(Opcodes.POP);
+                    mv.visitLdcInsn(name);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                            "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                            "logPutField",
+                            "(Ljava/lang/Object;Ljava/lang/String;)V",
+                            false);
+                } else if (Type.getType(descriptor).getSize() == 2) {
+                    //..., objectref, valueW
+                    mv.visitInsn(Opcodes.DUP2_X1);
+                    //..., valueW, objectref, valueW
+                    mv.visitInsn(Opcodes.POP2);
+                    //..., valueW, objectref
+                    mv.visitInsn(Opcodes.DUP_X2);
+                    //..., objectref, valueW, objectref
+                    mv.visitLdcInsn(name);
+                    //..., objectref, valueW, objectref, name
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                            "cn/edu/nju/shentianqi/jmtrace/logger/Log",
+                            "logPutField",
+                            "(Ljava/lang/Object;Ljava/lang/String;)V",
+                            false);
+                    //..., objectref, valueW
                 /*
                 //value1 value2
                 mv.visitInsn(Opcodes.DUP2_X1);
@@ -126,6 +134,7 @@ class MethodAdaptor extends MethodVisitor {
                 //value1 value2
                 // nothing to say
                  */
+                }
             }
         }
         super.visitFieldInsn(opcode, owner, name, descriptor);

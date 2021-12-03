@@ -20,18 +20,26 @@ class SomeClass {
 }
 
 public class Main {
+    public class Tiny {
+        int k;
+        int das$1;
+    }
+
+    public Tiny t = new Tiny();
+
     public static void main(String[] args) throws InterruptedException {
         Log.enableStdOut();
         Log.out("main() run");
         usage();
         test1();
-        //Log.out("test1() end");
+        Log.out("test1() end");
         test2();
-        //Log.out("test2() end");
+        Log.out("test2() end");
         test3();
-        //Log.out("test3() end");
+        Log.out("test3() end");
         Class<?> c = Main.class;
-        //Log.out(c);
+        Log.out(c);
+        Main main = new Main();
     }
 
     private static void usage() {
